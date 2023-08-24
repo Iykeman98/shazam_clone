@@ -12,6 +12,8 @@ class Homepage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewmodel = ref.watch(homeViewModel);
+
+
     return ProviderListener<HomeViewModel>(
       provider: homeViewModel,
       onChange:(context, viewmodel){
@@ -50,9 +52,7 @@ class Homepage extends HookConsumerWidget {
                 endRadius: 200,
                 animate: viewmodel.isRecognizing,
                 child: GestureDetector(
-
-                  onTap: () =>
-                      viewmodel.isRecognizing ? viewmodel.stopRecognizing() :viewmodel.startRecognizing(),
+                  onTap: () => viewmodel.startRecognizing(),
                   child: Material(
                       shape: CircleBorder(),
                       elevation: 8,
