@@ -13,20 +13,20 @@ class Homepage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewmodel = ref.watch(homeViewModel);
 
+    ref.listen(homeViewModel, (previousState, newState) {
+      if (newState.success) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SongScreen(
+                  song: ref.read(homeViewModel).currentSong,
+                )));
+      }
 
-    return ProviderListener<HomeViewModel>(
-      provider: homeViewModel,
-      onChange:(context, viewmodel){
-        if(viewmodel.success){
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => SongScreen(
-                    song: viewmodel.currentSong,
-                  )));
-        }
-      },
-      child: Scaffold(
+    });
+
+
+    return Scaffold(
         backgroundColor: Color(0xFF042442),
         body: Container(
           height: MediaQuery
@@ -50,9 +50,14 @@ class Homepage extends HookConsumerWidget {
               ),
               AvatarGlow(
                 endRadius: 200,
-                animate: viewmodel.isRecognizing,
+                animate: ref.read(homeViewModel).isRecognizing,
                 child: GestureDetector(
-                  onTap: () => viewmodel.startRecognizing(),
+                  onTap: () {
+                    viewmodel.startRecognizing();
+
+                    // ref.read(homeViewModel).isRecognizing ? ref.read(homeViewModel).stopRecognizing() : ref.read(homeViewModel).startRecognizing() ;
+
+                  },
                   child: Material(
                       shape: CircleBorder(),
                       elevation: 8,
@@ -73,7 +78,7 @@ class Homepage extends HookConsumerWidget {
           ),
         ),
 
-      ),
+
     );
   }
 }

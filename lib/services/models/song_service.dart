@@ -19,9 +19,10 @@ class SongServices{
    try{
      final response = await _dio.get('$id',
          options: Options(headers: {
-           "Content-type": "application/json;charset=UTF-8",
-           "Accept": "application/json;charset=UTF-8",
-     })) ;
+           'Content-type': 'application/json;charset=UTF-8',
+           'Accept': 'application/json;charset=UTF-8',
+         }));
+    print(response.data) ;
      DeezerSongModel result = DeezerSongModel.fromJson(response.data);
      return result;
    } on DioException catch (e) {

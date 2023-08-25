@@ -27,6 +27,7 @@ class HomeViewModel extends ChangeNotifier{
       )
           ..songModelStream.listen(searchSong);
     }catch (e){
+      print('VVVVVV');
       print(e.toString());
     }
   }
@@ -34,13 +35,17 @@ class HomeViewModel extends ChangeNotifier{
     print(song);
     final metaData = song.metadata;
     if(metaData != null && metaData.music!.length > 0){
-      final trackId = metaData!.music?[0].externalMetadata?.deezer?.track?.id;
+      final trackId = metaData.music?[0].externalMetadata?.deezer?.track?.id;
       try{
         final res = await songService.getTrack(trackId);
+        print('*******');
+
+        print(res.title ?? "" + "${res.artist }");
         currentSong = res;
         success = true;
         notifyListeners();
       }catch (e){
+        print("xxxxx");
         isRecognizing = false;
         success = false;
         notifyListeners();
